@@ -44,7 +44,7 @@ So, you can connect the web app to multiple networks using `connect`
       $ sudo docker network connect my-bridge-network web
 
 
-## Overlay networks
+## Overlay networks (Global-scope network driver)
 
 It is a logical container network runs on top of another network, so you have to use `--driver overlay`. This is important 
 because if I don't add `--driver overlay`, it will create a local network
@@ -70,5 +70,6 @@ For example, when we create a docker-compose on single node, it creates a local 
 
 **sources:**
 
-1. https://docs.docker.com/engine/tutorials/networkingcontainers/
+1. [Docker Documentation](https://docs.docker.com/engine/tutorials/networkingcontainers/)
 2. Some videos by Jérôme Petazzoni
+3. [Multi-host container networking using external Key-value store](https://docs.docker.com/engine/userguide/networking/get-started-overlay/#/step-1-set-up-a-key-value-store)
