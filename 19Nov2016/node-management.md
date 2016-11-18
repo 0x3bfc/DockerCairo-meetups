@@ -154,20 +154,27 @@ of services running on swarm cluster.
 
 	In case of manager maintaince, You can make worker node acts as manager using "promote" and "demote".
 
-	To promote worker to be a manager:
+	Nodes can be promoted to manager :
 
 			$ sudo docker node promote <NODE ID>
 		
-	To demote manager to be a worker again ... use demote argument as shown below
+		
+	Also, nodes can be demoted to worker with docker demote
 
 			$ sudo docker node demote <NODE ID>
+			
+	This can also be done with `docker node update <NODE ID> --role <worker|manager>`
+	but this has to be done from manager node ... workers cannot promote themselves.
 
-   **Add/Remove nodes**
+   **Removing nodes**
    --------------------
-   We showed how we can let node joins swarm cluster by using "swarm join" (see Prerequisites section)... Also, swarm enable
-   user to remove nodes from cluster using "swarm leave". Run the following command on node **NOT MANAGER**
+   swarm enables nodes to leave swarm cluster using simple swarm leave option Run the following command on node **NOT MANAGER**
               
 	   $ sudo docker swarm leave  
+
+   * Manager can not leave
+   * Nodes are drained before being removed (Rescheduling all tasks on other workers).
+   * After leaving, a node shows up in `docker node ls` 
 	
    **Deploy & scale a serveice**
    ----------------------------
