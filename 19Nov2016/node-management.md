@@ -88,8 +88,10 @@ of services running on swarm cluster.
 
 Managers are used to **maintaining cluster state** by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. To satisty the high availability of service, we have to replicate our services but we need a leader to coordinate communication among distributed servers. 
 
-### Leader Algorithm Problem:
+### Leader Election:
+
 - Leader election algorithm must satisfy the following:
+   
    1. Elect one leader only among the **non-faulty processes**
    2. All non-faulty processes agree on who is the leader
    
@@ -102,19 +104,33 @@ as (Ring protocols/algorithms) and Paxos-like approaches such as Google CHUBBY a
    
       ![Alt text](images/Ring-LeaderElection.png "Ring Leader Election Algorithm")
       
+      * N processes/nodes are organized in a logical ring.
+      * Any node can initiate election in case of leader failure.
+      * Each node send message to its successor containing the leader ID.
+      * If the current Node has a higher ID .. change the leader ID to current node ID.
+      * until the initiator recieve the highest ID then send a message to all node containing the elected leader.
       
-    "N processes/nodes are organized in a logical ring". But what if the elected leader fails? And its predecessor also fails? (and so on)
       
    2. **Google CHUBBY**
+   
    - group of replicas need to have a master by following:
    
+      ![Alt text](images/google-chu.png "Google Chubby Leader Election Algorithm")
+      
       * Potential leader tries to get votes from other servers
       * Each server votes for at most one leader
       * Server with majority of votes becomes new leader, informs everyone
       * Master node run election again after a period called *Master lease*
       
-      ![Alt text](images/google-chu.png "Google Chubby Leader Election Algorithm")
+      
+   3. **Zookeeper**
+   
+      * Each Server monitors its next higher server id
+      * If that successor was the leader and it has failed .... become a new leader
+      * Else: wait timeout and check successor again.
 
+   4. **RAFT**
+   
 source: https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
 
 
