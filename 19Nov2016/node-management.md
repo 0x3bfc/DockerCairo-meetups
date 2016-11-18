@@ -18,8 +18,8 @@ Prerequisite:
 
 2. Install Engine on Each node
 
-       $ sudo apt-get update
-       $ curl -sSL https://get.docker.com/ | sh
+         $ sudo apt-get update
+         $ curl -sSL https://get.docker.com/ | sh
 
 3. Configure Docker engine 
 
@@ -37,11 +37,9 @@ Prerequisite:
       $ sudo docker pull swarm
       $ sudo docker pull progrium/consul
      
-4. Discovery service
+4. Discovery service (Consul)
 
-       consul discovery backend
-
-       $ sudo docker run -d -p 8500:8500 --name=consul progrium/consul -server -bootstrap
+         $ sudo docker run -d -p 8500:8500 --name=consul progrium/consul -server -bootstrap
 
 
 5. Start Swarm Cluster
