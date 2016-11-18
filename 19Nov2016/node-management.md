@@ -1,25 +1,29 @@
 # Docker Cairo 2016 Nov. 19
 
 
-prerequisite:
+Prerequisite:
 -------------
 
 1. Install three nodes on Windows Azure cloud
-	
+-----------------------------------------------
+
 	- master
 	- node1
 	- node2
 	
 
-source [docker documentation](https://docs.docker.com/swarm/install-manual/)
+  source [docker documentation](https://docs.docker.com/swarm/install-manual/)
 
 2. Install Engine on Each node
-
+-------------------------------
 
       $ sudo apt-get update
       $ curl -sSL https://get.docker.com/ | sh
 
-3. Edit /etc/sysconfig/docker and add "-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"  to the OPTIONS variable.
+3. Configure Docker engine 
+---------------------------
+
+ Edit /etc/sysconfig/docker and add "-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"  to the OPTIONS variable.
       
       $ sudo vi /etc/default/docker
       
@@ -30,13 +34,11 @@ source [docker documentation](https://docs.docker.com/swarm/install-manual/)
         
       $ sudo /etc/init.d/docker restart
       $ sudo usermod -aG docker <USERNAME>
-      
       $ sudo docker pull swarm
       $ sudo docker pull progrium/consul
-      
-     
      
 4. Discovery service
+---------------------
 
        consul discovery backend
 
@@ -44,21 +46,22 @@ source [docker documentation](https://docs.docker.com/swarm/install-manual/)
 
 
 5. Start Swarm Cluster
+-----------------------
 
-Start swarm manager0 & manager1 (secondary manager for high availability) 
+ Start swarm manager0 & manager1 (secondary manager for high availability) 
 
        $ sudo docker run -d -p 4000:4000 swarm manage -H :4000 --replication --advertise <Manager_0>:4000 consul://<manager_0>:8500
        $ sudo docker run -d -p 4000:4000 swarm manage -H :4000 --replication --advertise <Manager_1>:4000 consul://<manager_0>:8500
        
 
-Connect to node1 and node2 to swarm and join them to the cluster
+  Connect to node1 and node2 to swarm and join them to the cluster
 
        $ sudo docker run -d swarm join --advertise=<node_0>:2375 consul://<manager_0>:8500
        
 
 
 6. Check manager and node status
-
+---------------------------------
 
        $ sudo docker -H :4000 info
        
