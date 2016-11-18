@@ -94,8 +94,26 @@ Managers are used to **maintaining cluster state** by implementing [RAFT](https:
    2. All non-faulty processes agree on who is the leader
    
 - Most popular Leader election algorithms:
-   1. Ring Election "N processes/nodes are organized in a logical ring" check out figure below
-   ![Alt text](images/Ring-LeaderElection.png "Ring Leader Election Algorithm")
+ 
+The most popular election algorithms can be classified into two main categories classical leader election protocols such
+as (Ring protocols/algorithms) and Paxos-like approaches such as Google CHUBBY and zookeeper. 
+
+   1. **Ring Election** 
+   
+      ![Alt text](images/Ring-LeaderElection.png "Ring Leader Election Algorithm")
+      
+      
+    "N processes/nodes are organized in a logical ring". But what if the elected leader fails? And its predecessor also fails? (and so on)
+      
+   2. **Google CHUBBY**
+   - group of replicas need to have a master by following:
+   
+      * Potential leader tries to get votes from other servers
+      * Each server votes for at most one leader
+      * Server with majority of votes becomes new leader, informs everyone
+      * Master node run election again after a period called *Master lease*
+      
+      ![Alt text](images/google-chu.png "Google Chubby Leader Election Algorithm")
 
 source: https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
 
