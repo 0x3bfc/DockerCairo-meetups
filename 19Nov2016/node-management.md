@@ -8,10 +8,10 @@ Prerequisite:
 
 1. Install three nodes on Windows Azure cloud
 
-	- manager0 
-	- manager1 (secondary)
-	- node1
-	- node2
+   - manager0 
+   - manager1 (secondary)
+   - node1
+   - node2
 	
 
   source [docker documentation](https://docs.docker.com/swarm/install-manual/)
@@ -86,11 +86,16 @@ of services running on swarm cluster.
 1. Managers
 ------------
 
-Managers are used to maintaining cluster state by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. As shown below a figure describes the basic concept of consesus problem.
+Managers are used to **maintaining cluster state** by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. To satisty the high availability of service, we have to replicate our services but we need a leader to coordinate communication among distributed servers. 
 
-
- 
-
+### Leader Algorithm Problem:
+- Leader election algorithm must satisfy the following:
+   1. Elect one leader only among the **non-faulty processes**
+   2. All non-faulty processes agree on who is the leader
+   
+- Most popular Leader election algorithms:
+   1. Ring Election "N processes/nodes are organized in a logical ring" check out figure below
+   ![Alt text](images/Ring-LeaderElection.png "Ring Leader Election Algorithm")
 
 source: https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
 
