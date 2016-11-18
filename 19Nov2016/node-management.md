@@ -75,7 +75,8 @@ source: [github issue](https://github.com/docker/swarm/issues/563)
 
 # Node Management
 -------------------
-In this tutorial we are going to talk about Docker swarm node management. As we can see basic architecture as described below, we have three managers and unlimited number of workers. All workers are connected to a gossip network!
+
+In this tutorial we are going to talk about Docker swarm node management. As we can see basic architecture as described below, we have three managers and unlimited number of workers. All workers are connected to the same network!
 
 ![Alt text](images/swarm-diagram.png "Basic Swarm cluster Architecture")
 source: https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
@@ -84,7 +85,8 @@ Swarm enables docker users to manage multiple docker-engines on multiple physica
 different techniques such as leader election, failure detection, suspicion and consensus mechanisms to manage large number 
 of services running on swarm cluster.
 
- # Basic concepts
+  Basic concepts
+  ---------------
 
   - Leader election algorithm must satisfy the following:
    
@@ -139,9 +141,9 @@ of services running on swarm cluster.
 1. Managers
 ------------
 
-Managers are used to **maintaining cluster state** by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. To satisty the high availability of service, we have to replicate our services but we need a leader to coordinate communication among distributed servers. 
-
-Docker recommends a maximum of **seven manager nodes** for a swarm!, but this doesn't enhance the 
+* Managers are used to **maintaining cluster state** by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. 
+* To satisty the high availability of service, we have to replicate our services but we need a leader to coordinate communication among distributed servers. 
+* Docker recommends a maximum of **seven manager nodes** for a swarm!, but this doesn't increase the performance. 
 
 2. Workers
 ------------
@@ -152,70 +154,76 @@ Docker recommends a maximum of **seven manager nodes** for a swarm!, but this do
 * As a result, you can set the availabily value to "drain" in order to prevent scheduler from setting tasks on managers
 
 
-List Nodes
----------------------
-Run the following commands on manager:
+# Operations on nodes
+----------------------
 
-       $ sudo docker node ls
+   List Nodes
+   ---------------------
+	Run the following commands on manager:
 
-Inspect node:
--------------
+		   $ sudo docker node ls
 
-       $ sudo docker node inspect baqteepnex4d2wuxnd0bresu0 --pretty 
-       ID:                     baqteepnex4d2wuxnd0bresu0
-       Hostname:               dockercairo
-       Joined at:              2016-11-18 14:56:56.91974244 +0000 utc
-       Status:
-        State:                 Ready
-       Availability:          Active
-       Manager Status:
-       Address:               100.109.108.132:2377
-       Raft Status:           Reachable
-        Leader:                Yes
-       Platform:
-        Operating System:      linux
-        Architecture:          x86_64
-       Resources:
-        CPUs:                  4
-        Memory:                6.804 GiB
-       Plugins:
-        Network:              bridge, host, null, overlay
-        Volume:               local
-       Engine Version:         1.12.3
+    Inspect node:
+    -------------
 
-       # show self inspect
-       $ sudo docker node inspect self --pretty
+		   $ sudo docker node inspect baqteepnex4d2wuxnd0bresu0 --pretty 
+		   ID:                     baqteepnex4d2wuxnd0bresu0
+		   Hostname:               dockercairo
+		   Joined at:              2016-11-18 14:56:56.91974244 +0000 utc
+		   Status:
+			State:                 Ready
+		   Availability:          Active
+		   Manager Status:
+		   Address:               100.109.108.132:2377
+		   Raft Status:           Reachable
+			Leader:                Yes
+		   Platform:
+			Operating System:      linux
+			Architecture:          x86_64
+		   Resources:
+			CPUs:                  4
+			Memory:                6.804 GiB
+		   Plugins:
+			Network:              bridge, host, null, overlay
+			Volume:               local
+		   Engine Version:         1.12.3
 
-Update node:
-------------
+		   # show self inspect
+		   $ sudo docker node inspect self --pretty
 
-update node label
+   Update node:
+   ------------
 
-       $ sudo docker node update --label-add foo --label-add bar=baz aun655dx7djrr4x06il5c7g46
+	update node label
 
-To prevent the scheduler from placing tasks on a manager node in a multi-node swarm, set the availability for the manager node to Drain.
- 
-       $ sudo docker node update --availability drain baqteepnex4d2wuxnd0bresu0
-       
-       $ sudo docker node ls 
-        ID                           HOSTNAME               STATUS  AVAILABILITY  MANAGER STATUS
-        aun655dx7djrr4x06il5c7g46    localhost.localdomain  Ready   Active        
-        baqteepnex4d2wuxnd0bresu0 *  dockercairo            Ready   Drain         Leader
-        bfhbnpelvbu9igdm1yr77ep58    worker2                Ready   Active        
+		   $ sudo docker node update --label-add foo --label-add bar=baz aun655dx7djrr4x06il5c7g46
 
-Change node role:
------------------
+	To prevent the scheduler from placing tasks on a manager node in a multi-node swarm, set the availability for the manager node to Drain.
+	 
+		   $ sudo docker node update --availability drain baqteepnex4d2wuxnd0bresu0
+		   
+		   $ sudo docker node ls 
+			ID                           HOSTNAME               STATUS  AVAILABILITY  MANAGER STATUS
+			aun655dx7djrr4x06il5c7g46    localhost.localdomain  Ready   Active        
+			baqteepnex4d2wuxnd0bresu0 *  dockercairo            Ready   Drain         Leader
+			bfhbnpelvbu9igdm1yr77ep58    worker2                Ready   Active        
 
-In case of manager maintaince, You can make worker node acts as manager using "promote" and "demote".
+   Change node role:
+   -----------------
 
-To promote worker to be a manager:
+	In case of manager maintaince, You can make worker node acts as manager using "promote" and "demote".
 
-        $ sudo docker node promote <NODE ID>
-	
-To demote manager to be a worker again ... use demote argument as shown below
+	To promote worker to be a manager:
 
-        $ sudo docker node demote <NODE ID>
+			$ sudo docker node promote <NODE ID>
+		
+	To demote manager to be a worker again ... use demote argument as shown below
 
+			$ sudo docker node demote <NODE ID>
+
+    Add/Remove nodes:
+    -----------------
+    
 
 
 Swarm networking https://docs.docker.com/swarm/networking/
