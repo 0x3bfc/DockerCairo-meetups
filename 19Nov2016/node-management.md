@@ -44,7 +44,7 @@ Prerequisite:
 
 5. Start Swarm Cluster
 
- Start swarm manager0 & manager1 (secondary manager for high availability) 
+  Start swarm manager0 & manager1 (secondary manager for high availability) 
 
        $ sudo docker run -d -p 4000:4000 swarm manage -H :4000 --replication --advertise <Manager_0>:4000 consul://<manager_0>:8500
        $ sudo docker run -d -p 4000:4000 swarm manage -H :4000 --replication --advertise <Manager_1>:4000 consul://<manager_0>:8500
@@ -84,23 +84,17 @@ Swarm enables docker users to manage multiple docker-engines on multiple physica
 different techniques such as leader election, failure detection, suspicion and consensus mechanisms to manage large number 
 of services running on swarm cluster.
 
-1. Managers
-------------
+ # Basic concepts
 
-Managers are used to **maintaining cluster state** by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. To satisty the high availability of service, we have to replicate our services but we need a leader to coordinate communication among distributed servers. 
-
-### Leader Election:
-
-- Leader election algorithm must satisfy the following:
+  - Leader election algorithm must satisfy the following:
    
-   1. Elect one leader only among the **non-faulty processes**
-   2. All non-faulty processes agree on who is the leader
+    1. Elect one leader only among the **non-faulty processes**
+    2. All non-faulty processes agree on who is the leader
    
-- Most popular Leader election algorithms:
+  - Most popular Leader election algorithms:
  
-The most popular election algorithms can be classified into multiple categories, a classical leader election protocols such
-as (Ring protocol/algorithm), Paxos-like approaches such as Google CHUBBY and zookeeper and Raft consensus such as Consul.  
-
+  The most popular election algorithms can be classified into multiple categories, a classical leader election protocols such
+  as (Ring protocol/algorithm), Paxos-like approaches such as Google CHUBBY and zookeeper and Raft consensus such as Consul.  
    1. **Ring** 
    
        ![Alt text](images/Ring-LeaderElection.png "Ring Leader Election Algorithm")
@@ -136,8 +130,19 @@ as (Ring protocol/algorithm), Paxos-like approaches such as Google CHUBBY and zo
       * RAFT is a consensus algorithm, which is used to maintian the fault-tolerance.
       * Each server has a state machine and log "hash table".
       * Get a command from log and check if that state machine is the same on all servers.
-      * "As a result, each state machine processes the same series of commands and thus produces the same series of results and arrives at the same series of states." you can read more about from [here](https://raft.github.io/)
+      * "As a result, each state machine processes the same series of commands and thus produces the same series of results 
+       and arrives at the same series of states." you can read more about from [here](https://raft.github.io/)
    
+
+
+
+1. Managers
+------------
+
+Managers are used to **maintaining cluster state** by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. To satisty the high availability of service, we have to replicate our services but we need a leader to coordinate communication among distributed servers. 
+
+Docker recommends a maximum of **seven manager nodes** for a swarm!, but this doesn't enhance the 
+
 2. Workers
 ------------
 
@@ -197,6 +202,19 @@ To prevent the scheduler from placing tasks on a manager node in a multi-node sw
         aun655dx7djrr4x06il5c7g46    localhost.localdomain  Ready   Active        
         baqteepnex4d2wuxnd0bresu0 *  dockercairo            Ready   Drain         Leader
         bfhbnpelvbu9igdm1yr77ep58    worker2                Ready   Active        
+
+Change node role:
+-----------------
+
+In case of manager maintaince, You can make worker node acts as manager using "promote" and "demote".
+
+To promote worker to be a manager:
+
+        $ sudo docker node promote <NODE ID>
+	
+To demote manager to be a worker again ... use demote argument as shown below
+
+        $ sudo docker node demote <NODE ID>
 
 
 
