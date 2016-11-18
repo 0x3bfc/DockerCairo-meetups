@@ -85,8 +85,8 @@ of services running on swarm cluster.
 # Operations on nodes
 ----------------------
 
-   ** Node Availability **
-   -----------------------
+   **Node Availability**
+   ---------------------
 
    There are three types of node availability:
 
