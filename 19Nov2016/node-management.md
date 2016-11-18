@@ -138,21 +138,65 @@ as (Ring protocol/algorithm), Paxos-like approaches such as Google CHUBBY and zo
       * Get a command from log and check if that state machine is the same on all servers.
       * "As a result, each state machine processes the same series of commands and thus produces the same series of results and arrives at the same series of states." you can read more about from [here](https://raft.github.io/)
    
+2. Workers
+------------
 
-Inspect & List Nodes
+* Worker nodes mainly execute containers using Docker Engine.
+* You have to deploy at least one manager to be able to start worker 
+* By default, all managers are defined as workers.
+* As a result, you can set the availabily value to "drain" in order to prevent scheduler from setting tasks on managers
+
+
+List Nodes
 ---------------------
-
 Run the following commands on manager:
 
        $ sudo docker node ls
-       $ sudo docker node inspect <NODE ID>  --pretty
+
+Inspect node:
+-------------
+
+       $ sudo docker node inspect baqteepnex4d2wuxnd0bresu0 --pretty 
+       ID:                     baqteepnex4d2wuxnd0bresu0
+       Hostname:               dockercairo
+       Joined at:              2016-11-18 14:56:56.91974244 +0000 utc
+       Status:
+        State:                 Ready
+       Availability:          Active
+       Manager Status:
+       Address:               100.109.108.132:2377
+       Raft Status:           Reachable
+        Leader:                Yes
+       Platform:
+        Operating System:      linux
+        Architecture:          x86_64
+       Resources:
+        CPUs:                  4
+        Memory:                6.804 GiB
+       Plugins:
+        Network:              bridge, host, null, overlay
+        Volume:               local
+       Engine Version:         1.12.3
+
        # show self inspect
        $ sudo docker node inspect self --pretty
 
 Update node:
 ------------
 
+update node label
+
        $ sudo docker node update --label-add foo --label-add bar=baz aun655dx7djrr4x06il5c7g46
+
+To prevent the scheduler from placing tasks on a manager node in a multi-node swarm, set the availability for the manager node to Drain.
+ 
+       $ sudo docker node update --availability drain baqteepnex4d2wuxnd0bresu0
+       
+       $ sudo docker node ls 
+        ID                           HOSTNAME               STATUS  AVAILABILITY  MANAGER STATUS
+        aun655dx7djrr4x06il5c7g46    localhost.localdomain  Ready   Active        
+        baqteepnex4d2wuxnd0bresu0 *  dockercairo            Ready   Drain         Leader
+        bfhbnpelvbu9igdm1yr77ep58    worker2                Ready   Active        
 
 
 
