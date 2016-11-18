@@ -4,7 +4,7 @@
 # Networking Containers
 -------------------------
 
-## Local network on single host
+## Local networks
 
 Docker provides a default network called `bridge` which is a special network
 
@@ -44,7 +44,7 @@ So, you can connect the web app to multiple networks using `connect`
       $ sudo docker network connect my-bridge-network web
 
 
-## Overlay network
+## Overlay networks
 
 It is a logical container network runs on top of another network, so you have to use `--driver overlay`. This is important 
 because if I don't add `--driver overlay`, it will create a local network
@@ -61,13 +61,14 @@ because if I don't add `--driver overlay`, it will create a local network
 
 For example, when we create a docker-compose on single node, it creates a local network which is appropriate for single instance that's going to be a bridge. If we are using compose together with old swarm.. the default network is going to be overlay, so that it works across cluster.
 
-**Note**:
+**Important Notes:**
 
 1. You can notice that the scope of overlay networks is swarm, which means that it is accessible across cluster nodes. Also, network IDs in bridge and host uses hex decimal identifiers however swarm IDs use numbers and letters.
 2. Swarm uses VXLAN (Virtual Extensible LAN): that it's a normal ethernet network, in the case of VLAN it's ethernet on top of ethernet, but in the case of VXLAN, it's ethernet on top of UDP .... which means as long as you have IP connectivity between your nodes then you will be able to have the XLAN ... so it will work on any kind of machine or any kind of cloud provider even between different cloud providers.
 3. Placing container on a network must requires allocating an IP address for this container, that is because of workers cannot update Raft key/store data ... it can be updated only by managers ... so `docker run --net ... ` will run only on manager nodes.
 
 
-sources:
+**sources:**
+
 1. https://docs.docker.com/engine/tutorials/networkingcontainers/
 2. Some videos by Jérôme Petazzoni
