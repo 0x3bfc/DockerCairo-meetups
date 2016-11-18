@@ -1,12 +1,15 @@
 # Docker Cairo 2016 Nov. 19
 
+Deploy your swarm cluster as described below. The cluster was deployed on Azure cloud. If you have any issue, don't 
+hesitate to ask!!
 
 Prerequisite:
 -------------
 
 1. Install three nodes on Windows Azure cloud
 
-	- master
+	- manager0 
+	- manager1 (secondary)
 	- node1
 	- node2
 	
@@ -15,9 +18,8 @@ Prerequisite:
 
 2. Install Engine on Each node
 
-
-      $ sudo apt-get update
-      $ curl -sSL https://get.docker.com/ | sh
+       $ sudo apt-get update
+       $ curl -sSL https://get.docker.com/ | sh
 
 3. Configure Docker engine 
 
@@ -48,22 +50,19 @@ Prerequisite:
 
        $ sudo docker run -d -p 4000:4000 swarm manage -H :4000 --replication --advertise <Manager_0>:4000 consul://<manager_0>:8500
        $ sudo docker run -d -p 4000:4000 swarm manage -H :4000 --replication --advertise <Manager_1>:4000 consul://<manager_0>:8500
-       
 
   Connect to node1 and node2 to swarm and join them to the cluster
 
        $ sudo docker run -d swarm join --advertise=<node_0>:2375 consul://<manager_0>:8500
-       
-
 
 6. Check manager and node status
 
-       $ sudo docker -H :4000 info
+        $ sudo docker -H :4000 info
        
        
 
-ISSUES
--------
+NOTES
+------
 
 Don't duplicate the VM or docker daemon installation
 
@@ -78,15 +77,23 @@ source: [github issue](https://github.com/docker/swarm/issues/563)
 
 # Node Management
 -------------------
+In this tutorial we are going to talk about Docker swarm node management. As we can see basic architecture as described below, we have three managers and unlimited number of workers. All workers are connected to a gossip network!
 
+![Alt text](images/swarm-diagram.png "Basic Swarm cluster Architecture")
 
 Swarm enables docker users to manage multiple docker-engines on multiple physical/virtual hosts.... This leads to using 
 different techniques such as leader election, failure detection, suspicion and consensus mechanisms to manage large number 
 of services running on swarm cluster.
 
-The following figure describes 
+1. Managers
+------------
 
-![Alt text](images/swarm-diagram.png "Basic Architecture")
+Managers are used to maintaining cluster state by implementing [RAFT](https://raft.github.io/raft.pdf) consensus algorithm. As shown below a figure describes the basic concept of consesus problem.
+
+
+ 
+
+
 source: https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
 
 
