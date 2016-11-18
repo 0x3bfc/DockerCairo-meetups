@@ -3,18 +3,15 @@
 Deploy your swarm cluster as described below. The cluster was deployed on Azure cloud. If you have any issue, don't 
 hesitate to ask!!
 
-Prerequisites:
--------------
+# Prerequisites:
+----------------
 
 1. Install three nodes on Windows Azure cloud
-
    - manager0 
    - manager1 (secondary)
    - node1
    - node2
-	
-
-  source [docker documentation](https://docs.docker.com/swarm/install-manual/)
+source [docker documentation](https://docs.docker.com/swarm/install-manual/)
 
 2. Install Engine on Each node
 
@@ -22,7 +19,6 @@ Prerequisites:
          $ curl -sSL https://get.docker.com/ | sh
 
 3. Configure Docker engine 
-
  Edit /etc/sysconfig/docker and add "-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"  to the OPTIONS variable.
       
       $ sudo vi /etc/default/docker
@@ -41,7 +37,6 @@ Prerequisites:
 
          $ sudo docker run -d -p 8500:8500 --name=consul progrium/consul -server -bootstrap
 
-
 5. Start Swarm Cluster
 
   Start swarm manager0 & manager1 (secondary manager for high availability) 
@@ -55,30 +50,8 @@ Prerequisites:
 
 6. Check manager and node status
 
-        $ sudo docker -H :4000 info
-       
-       
+        $ sudo docker -H :4000 info       
 
-NOTES
-------
-
-* Don't duplicate the VM or docker daemon installation. The problem is that docker generates a single ID when you install the daemon. If you duplicate the VM you will end up with two different hosts and their own IP address but with a duplicate ID from docker that swarm uses. You should reinstall the docker daemon on the second node ... source: [github issue](https://github.com/docker/swarm/issues/563)
-* Regarding Consul: to create a high-availability cluster use a trio of consul nodes... for more info check out this [link](https://hub.docker.com/r/progrium/consul/)
-* Also *--advertise-addr* enable node to propagate that information to other nodes that subsequently connect to it.
-
-
-# Node Availability
--------------------
-
-There are three types of node availability:
-
-1. Active = schedule tasks on this node
-2. Pause  = don't schedule tasks on this node, but existing tasks are not effected!
-3. Drain  = don't schedule tasks on this node, existing tasks are moved away
-
-For example, change availability status of node-1 from active mode to drain:
-
-       $ sudo docker node update --availability drain node-1
 
 # Node Management
 -------------------
@@ -112,14 +85,27 @@ of services running on swarm cluster.
 # Operations on nodes
 ----------------------
 
-   **List Nodes:**
+   ** Node Availability **
+   -----------------------
+
+   There are three types of node availability:
+
+     1. Active = schedule tasks on this node
+     2. Pause  = don't schedule tasks on this node, but existing tasks are not effected!
+     3. Drain  = don't schedule tasks on this node, existing tasks are moved away
+
+    For example, change availability status of node-1 from active mode to drain:
+
+        $ sudo docker node update --availability drain node-1
+
+   **List Nodes**
    ---------------------
 	Run the following commands on manager:
 
 		   $ sudo docker node ls
 
-    **Inspect node:**
-    -------------
+    **Inspect node**
+    ----------------
 
 		   $ sudo docker node inspect baqteepnex4d2wuxnd0bresu0 --pretty 
 		   ID:                     baqteepnex4d2wuxnd0bresu0
@@ -146,8 +132,8 @@ of services running on swarm cluster.
 		   # show self inspect
 		   $ sudo docker node inspect self --pretty
 
-   **Update node:**
-   ------------
+   **Update node**
+   ---------------
 
 	update node label
 
@@ -163,8 +149,8 @@ of services running on swarm cluster.
 			baqteepnex4d2wuxnd0bresu0 *  dockercairo            Ready   Drain         Leader
 			bfhbnpelvbu9igdm1yr77ep58    worker2                Ready   Active        
 
-   **Change node role:**
-   -----------------
+   **Change node role**
+   --------------------
 
 	In case of manager maintaince, You can make worker node acts as manager using "promote" and "demote".
 
@@ -176,15 +162,15 @@ of services running on swarm cluster.
 
 			$ sudo docker node demote <NODE ID>
 
-   **Add/Remove nodes:**
-   ----------------------
+   **Add/Remove nodes**
+   --------------------
    We showed how we can let node joins swarm cluster by using "swarm join" (see Prerequisites section)... Also, swarm enable
    user to remove nodes from cluster using "swarm leave". Run the following command on node **NOT MANAGER**
               
 	   $ sudo docker swarm leave  
 	
-   **Deploy & scale a serveice:**
-   -----------------------------
+   **Deploy & scale a serveice**
+   ----------------------------
    
            $ sudo docker service create --replicas 2 --name helloworld alpine ping docker.com
 	   $ sudo docker -H :4000 ps
@@ -193,3 +179,9 @@ of services running on swarm cluster.
 
 
 
+NOTES
+------
+
+* Don't duplicate the VM or docker daemon installation. The problem is that docker generates a single ID when you install the daemon. If you duplicate the VM you will end up with two different hosts and their own IP address but with a duplicate ID from docker that swarm uses. You should reinstall the docker daemon on the second node ... source: [github issue](https://github.com/docker/swarm/issues/563)
+* Regarding Consul: to create a high-availability cluster use a trio of consul nodes... for more info check out this [link](https://hub.docker.com/r/progrium/consul/)
+* Also *--advertise-addr* enable node to propagate that information to other nodes that subsequently connect to it.
