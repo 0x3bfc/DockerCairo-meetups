@@ -1,4 +1,4 @@
-# Docker Cairo 2016 Nov. 19
+# Docker Cairo 2016 Nov. 19 (cont.)
 
 Deploy your swarm cluster as described below. The cluster was deployed on Azure cloud. If you have any issue, don't 
 hesitate to ask!!
@@ -223,6 +223,13 @@ of services running on swarm cluster.
               
 	   $ sudo docker swarm leave  
 	
+   **Deploy & scale a serveice:**
+   -----------------------------
+   
+           $ sudo docker service create --replicas 2 --name helloworld alpine ping docker.com
+	   $ sudo docker -H :4000 ps
+	   # scale service 
+	   $ sudo docker service scale helloworld=4
 
 
-Swarm networking https://docs.docker.com/swarm/networking/
+
