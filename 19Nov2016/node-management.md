@@ -87,16 +87,16 @@ of services running on swarm cluster.
 
    **Node Availability**
    ---------------------
-
-   There are three types of node availability:
    
-   * **Active** = schedule tasks on this node
-   * **Pause**  = don't schedule tasks on this node, but existing tasks are not effected!
-   * **Drain**  = don't schedule tasks on this node, existing tasks are moved away
+   There are three types of node availability:
+      
+      * **Active** = schedule tasks on this node
+      * **Pause**  = don't schedule tasks on this node, but existing tasks are not effected!
+      * **Drain**  = don't schedule tasks on this node, existing tasks are moved away
 
-    For example, change availability status of node-1 from active mode to drain:
+       For example, change availability status of node-1 from active mode to drain:
 
-        $ sudo docker node update --availability drain node-1
+            $ sudo docker node update --availability drain node-1
 
    **List Nodes**
    ---------------------
