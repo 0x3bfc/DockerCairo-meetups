@@ -90,11 +90,11 @@ of services running on swarm cluster.
    
    There are three types of node availability:
       
-      * **Active** = schedule tasks on this node
-      * **Pause**  = don't schedule tasks on this node, but existing tasks are not effected!
-      * **Drain**  = don't schedule tasks on this node, existing tasks are moved away
+   * **Active** = schedule tasks on this node
+   * **Pause**  = don't schedule tasks on this node, but existing tasks are not effected!
+   * **Drain**  = don't schedule tasks on this node, existing tasks are moved away
 
-       For example, change availability status of node-1 from active mode to drain:
+   For example, change availability status of node-1 from active mode to drain:
 
             $ sudo docker node update --availability drain node-1
 
@@ -174,7 +174,10 @@ of services running on swarm cluster.
 
    * Manager can not leave
    * Nodes are drained before being removed (Rescheduling all tasks on other workers).
-   * After leaving, a node shows up in `docker node ls` 
+   * After leaving, a node shows up in `docker node ls`
+   * If you run `docker node ls` again, you will notice that the node has no status, but still exist ... that because 
+   when node leave swarm, the id will be exist, so to remove it completely, you have to use `docker node rm <NODE ID>` 
+   fromm manager.
 	
    **Deploy & scale a serveice**
    ----------------------------
