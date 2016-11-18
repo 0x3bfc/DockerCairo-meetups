@@ -5,7 +5,6 @@ Prerequisite:
 -------------
 
 1. Install three nodes on Windows Azure cloud
------------------------------------------------
 
 	- master
 	- node1
@@ -15,13 +14,12 @@ Prerequisite:
   source [docker documentation](https://docs.docker.com/swarm/install-manual/)
 
 2. Install Engine on Each node
--------------------------------
+
 
       $ sudo apt-get update
       $ curl -sSL https://get.docker.com/ | sh
 
 3. Configure Docker engine 
----------------------------
 
  Edit /etc/sysconfig/docker and add "-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock"  to the OPTIONS variable.
       
@@ -38,7 +36,6 @@ Prerequisite:
       $ sudo docker pull progrium/consul
      
 4. Discovery service
----------------------
 
        consul discovery backend
 
@@ -46,7 +43,6 @@ Prerequisite:
 
 
 5. Start Swarm Cluster
------------------------
 
  Start swarm manager0 & manager1 (secondary manager for high availability) 
 
@@ -61,13 +57,12 @@ Prerequisite:
 
 
 6. Check manager and node status
----------------------------------
 
        $ sudo docker -H :4000 info
        
        
 
-ISSUES:
+ISSUES
 -------
 
 Don't duplicate the VM or docker daemon installation
@@ -81,6 +76,18 @@ source: [github issue](https://github.com/docker/swarm/issues/563)
 
 
 
-Node management https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
+# Node Management
+-------------------
+
+
+Swarm enables docker users to manage multiple docker-engines on multiple physical/virtual hosts.... This leads to using 
+different techniques such as leader election, failure detection, suspicion and consensus mechanisms to manage large number 
+of services running on swarm cluster.
+
+The following figure describes 
+
+![Alt text](images/swarm-diagram.png "Basic Architecture")
+source: https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
+
 
 Swarm networking https://docs.docker.com/swarm/networking/
