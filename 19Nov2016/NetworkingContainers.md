@@ -18,7 +18,7 @@ You can remove a container from a network by using `disconnect` keyword using ne
 
 1. Create your network
 
-Create your own network and start attach containers to provide complete isolation for your applications
+Create your own network and start attaching containers to provide complete isolation for your applications
 
       $ sudo docker network create -d bridge my-network
       # -d --> flag tells docker to use the bridge driver 
@@ -28,16 +28,16 @@ Create your own network and start attach containers to provide complete isolatio
 
 2. Attach containers to your network
 
-Attaching your app container to your network provides more secure communication for your applications.... so for example if
+Attaching your app container to your network provides more secure communication to your applications.... so for example if
 you want to make db communication on specific network to overcome any communication on default bridge network... you can use 
-`--network` option to connect the running app to specific network as following:
+`--network` option to connect the running app to specific network as follows:
       
       # run DB container and attach it to my-network
       $ sudo docker run -d --network=my-network --name db training/postgres 
       # run web app and attach it to default bridge
       $ sudo docker run -d --name web training/webapp python app.py
       
-Now your DB container is running and connected to `my-network` network... if you create your web application ... and connect it to the default bridge ... your app gonna be unreachable your DB....That is because the two containers are running on different networks
+Now your DB container is running and connected to `my-network` network... if you create your web application ... and connect it to the default bridge ... your app will going to be unreachable to your DB....This is because the two containers are running on different networks
 
 So, you can connect the web app to multiple networks using `connect`
 
@@ -46,8 +46,8 @@ So, you can connect the web app to multiple networks using `connect`
 
 ## Overlay networks (Global-scope network driver)
 
-It is a logical container network runs on top of another network, so you have to use `--driver overlay`. This is important 
-because if I don't add `--driver overlay`, it will create a local network
+It is a logical container network which runs on top of another network, so you have to use `--driver overlay`. This is important 
+because if you didn't add `--driver overlay`, it will create a local network
   
        $ sudo docker network create my-overlay-net --driver overlay
        $ sudo docker network ls 
@@ -59,12 +59,12 @@ because if I don't add `--driver overlay`, it will create a local network
        4cfakg0611de        my-overlay-net      overlay             swarm               
        4a4057542766        none                null                local
 
-For example, when we create a docker-compose on single node, it creates a local network which is appropriate for single instance that's going to be a bridge. If we are using compose together with old swarm.. the default network is going to be overlay, so that it works across cluster.
+For example, when we create a docker-compose on single node, it creates a local network which is appropriate for single instance that will going to be a bridge. If we are using compose together with old swarm.. the default network is going to be overlay, so that it works across cluster.
 
 **Important Notes:**
 
-1. You can notice that the scope of overlay networks is swarm, which means that it is accessible across cluster nodes. Also, network IDs in bridge and host uses hex decimal identifiers however swarm IDs use numbers and letters.
-2. Swarm uses VXLAN (Virtual Extensible LAN): that it's a normal ethernet network, in the case of VLAN it's ethernet on top of ethernet, but in the case of VXLAN, it's ethernet on top of UDP .... which means as long as you have IP connectivity between your nodes then you will be able to have the XLAN ... so it will work on any kind of machine or any kind of cloud provider even between different cloud providers.
+1. You can notice that the scope of overlay networks is swarm, which means that it is accessible across cluster nodes. Also, network IDs in bridge and host uses hex decimal identifiers, however, swarm IDs use numbers and letters.
+2. Swarm uses VXLAN (Virtual Extensible LAN): a normal ethernet network, in the case of VLAN it's ethernet on top of ethernet, but in the case of VXLAN, it is ethernet on top of UDP .... which means as long as you have IP connectivity between your nodes then you will be able to have the XLAN ... so it will work on any kind of machine or any kind of cloud provider even between different cloud providers.
 3. Placing container on a network must requires allocating an IP address for this container, that is because of workers cannot update Raft key/store data ... it can be updated only by managers ... so `docker run --net ... ` will run only on manager nodes.
 
 
