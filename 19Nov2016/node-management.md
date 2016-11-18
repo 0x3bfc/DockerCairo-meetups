@@ -89,10 +89,10 @@ of services running on swarm cluster.
    ---------------------
 
    There are three types of node availability:
-
-     1. Active = schedule tasks on this node
-     2. Pause  = don't schedule tasks on this node, but existing tasks are not effected!
-     3. Drain  = don't schedule tasks on this node, existing tasks are moved away
+   
+   * **Active** = schedule tasks on this node
+   * **Pause**  = don't schedule tasks on this node, but existing tasks are not effected!
+   * **Drain**  = don't schedule tasks on this node, existing tasks are moved away
 
     For example, change availability status of node-1 from active mode to drain:
 
