@@ -3,7 +3,7 @@
 Deploy your swarm cluster as described below. The cluster was deployed on Azure cloud. If you have any issue, don't 
 hesitate to ask!!
 
-Prerequisite:
+Prerequisites:
 -------------
 
 1. Install three nodes on Windows Azure cloud
@@ -62,16 +62,11 @@ Prerequisite:
 NOTES
 ------
 
-Don't duplicate the VM or docker daemon installation
+* Don't duplicate the VM or docker daemon installation. The problem is that docker generates a single ID when you install the daemon. If you duplicate the VM you will end up with two different hosts and their own IP address but with a duplicate ID from docker that swarm uses. You should reinstall the docker daemon on the second node ... source: [github issue](https://github.com/docker/swarm/issues/563)
 
-The problem is that docker generates a single ID when you install the daemon. 
+* Regarding Consul: to create a high-availability cluster use a trio of consul nodes... for more info check out this [link](https://docs.docker.com/swarm/discovery/)
 
-If you duplicate the VM you will end up with two different hosts and their own IP address but with a duplicate ID from docker that swarm uses. 
-You should reinstall the docker daemon on the second node
-
-source: [github issue](https://github.com/docker/swarm/issues/563)
-
-
+* Also  --advertise-addr so that the node can propagate that information to other nodes that subsequently connect to it.
 
 # Node Management
 -------------------
@@ -85,7 +80,7 @@ Swarm enables docker users to manage multiple docker-engines on multiple physica
 different techniques such as leader election, failure detection, suspicion and consensus mechanisms to manage large number 
 of services running on swarm cluster.
 
-  Basic concepts
+  **Basic concepts**
   ---------------
 
   - Leader election algorithm must satisfy the following:
@@ -157,13 +152,13 @@ of services running on swarm cluster.
 # Operations on nodes
 ----------------------
 
-   List Nodes
+   **List Nodes:**
    ---------------------
 	Run the following commands on manager:
 
 		   $ sudo docker node ls
 
-    Inspect node:
+    **Inspect node:**
     -------------
 
 		   $ sudo docker node inspect baqteepnex4d2wuxnd0bresu0 --pretty 
@@ -191,7 +186,7 @@ of services running on swarm cluster.
 		   # show self inspect
 		   $ sudo docker node inspect self --pretty
 
-   Update node:
+   **Update node:**
    ------------
 
 	update node label
@@ -208,7 +203,7 @@ of services running on swarm cluster.
 			baqteepnex4d2wuxnd0bresu0 *  dockercairo            Ready   Drain         Leader
 			bfhbnpelvbu9igdm1yr77ep58    worker2                Ready   Active        
 
-   Change node role:
+   **Change node role:**
    -----------------
 
 	In case of manager maintaince, You can make worker node acts as manager using "promote" and "demote".
@@ -221,9 +216,13 @@ of services running on swarm cluster.
 
 			$ sudo docker node demote <NODE ID>
 
-    Add/Remove nodes:
-    -----------------
-    
+   **Add/Remove nodes:**
+   ----------------------
+   We showed how we can let node joins swarm cluster by using "swarm join" (see Prerequisites section)... Also, swarm enable
+   user to remove nodes from cluster using "swarm leave". Run the following command on node **NOT MANAGER**
+              
+	   $ sudo docker swarm leave  
+	
 
 
 Swarm networking https://docs.docker.com/swarm/networking/
