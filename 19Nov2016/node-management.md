@@ -195,3 +195,9 @@ NOTES
 * Don't duplicate the VM or docker daemon installation. The problem is that docker generates a single ID when you install the daemon. If you duplicate the VM you will end up with two different hosts and their own IP address but with a duplicate ID from docker that swarm uses. You should reinstall the docker daemon on the second node ... source: [github issue](https://github.com/docker/swarm/issues/563)
 * Regarding Consul: to create a high-availability cluster use a trio of consul nodes... for more info check out this [link](https://hub.docker.com/r/progrium/consul/)
 * Also *--advertise-addr* enable node to propagate that information to other nodes that subsequently connect to it.
+
+
+**Sources**
+
+1. [Docker Documentation](https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/)
+2. [Trio Consul Nodes](https://hub.docker.com/r/progrium/consul/)
