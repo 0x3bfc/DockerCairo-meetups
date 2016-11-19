@@ -43,6 +43,7 @@
 
    4. **Consul**
       
+      * First check out this great website discussing Raft Algorithm in details [TheSecretLivesOfData.com](http://thesecretlivesofdata.com/raft/)
       * Consul uses Raft consensus algorithm, in order to maintian the fault-tolerance.
       * Each server has a state machine and log "hash table".
       * Get a command from log and check if that state machine still the same on all servers even after applying multiple commands.
