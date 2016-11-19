@@ -1,6 +1,6 @@
 # Docker Cairo 2016 Nov. 19 (cont.)
 
-Deploy your swarm cluster as described below. The cluster was deployed on Azure cloud. If you have any issue, don't 
+Deploy your swarm cluster as described below. The cluster was deployed on Azure cloud. If you have any issues, don't 
 hesitate to ask!!
 
 # Prerequisites:
@@ -91,8 +91,8 @@ of services running on swarm cluster.
    There are three types of node availability:
       
    * **Active** = schedule tasks on this node
-   * **Pause**  = don't schedule tasks on this node, but existing tasks are not effected!
-   * **Drain**  = don't schedule tasks on this node, existing tasks are moved away
+   * **Pause**  = doesn't schedule tasks on this node, but existing tasks are not effected!
+   * **Drain**  = doesn't schedule tasks on this node, existing tasks are moved away
 
    For example, change availability status of node-1 from active mode to drain:
 
