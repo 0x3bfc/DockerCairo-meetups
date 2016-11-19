@@ -6,7 +6,7 @@ hesitate to ask!!
 # Prerequisites:
 ----------------
 
-1. Install three nodes on Windows Azure cloud
+1. Install four nodes on Windows Azure cloud
    - manager0 
    - manager1 (secondary)
    - node1
