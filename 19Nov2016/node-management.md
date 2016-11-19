@@ -7,10 +7,12 @@ hesitate to ask!!
 ----------------
 
 1. Install four nodes on Windows Azure cloud
+   
    - manager0 
    - manager1 (secondary)
    - node1
    - node2
+   
 source [docker documentation](https://docs.docker.com/swarm/install-manual/)
 
 2. Install Engine on Each node
