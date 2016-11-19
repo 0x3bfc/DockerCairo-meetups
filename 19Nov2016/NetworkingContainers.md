@@ -73,3 +73,4 @@ For example, when we create a docker-compose on single node, it creates a local 
 1. [Docker Documentation](https://docs.docker.com/engine/tutorials/networkingcontainers/)
 2. Some videos by Jérôme Petazzoni
 3. [Multi-host container networking using external Key-value store](https://docs.docker.com/engine/userguide/networking/get-started-overlay/#/step-1-set-up-a-key-value-store)
+4. [Docker Swarm Overlay Networks](https://docs.docker.com/engine/userguide/networking/overlay-security-model/)
