@@ -59,6 +59,10 @@ because if you didn't add `--driver overlay`, it will create a local network
        4cfakg0611de        my-overlay-net      overlay             swarm               
        4a4057542766        none                null                local
 
+ 
+ ![Alt text](images/overlay-network-final.png "Overlay network based on key-value store")
+
+
 For example, when we create a docker-compose on single node, it creates a local network which is appropriate for single instance that will going to be a bridge. If we are using compose together with old swarm.. the default network is going to be overlay, so that it works across cluster.
 
 **Important Notes:**
@@ -74,3 +78,4 @@ For example, when we create a docker-compose on single node, it creates a local 
 2. Some videos by Jérôme Petazzoni
 3. [Multi-host container networking using external Key-value store](https://docs.docker.com/engine/userguide/networking/get-started-overlay/#/step-1-set-up-a-key-value-store)
 4. [Docker Swarm Overlay Networks](https://docs.docker.com/engine/userguide/networking/overlay-security-model/)
+5. [Docker Networking Guide](https://docs.docker.com/engine/userguide/networking/)
