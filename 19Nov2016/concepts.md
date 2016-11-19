@@ -37,7 +37,7 @@
    
       * Apply Paxos-like protocol!
       * Each Server monitors its next higher server id
-      * If that successor was the leader and it has failed .... become a new leader
+      * If that successor was the leader and it has failed.... become a new leader
       * Else: wait timeout and check successor again.
 
    4. **Consul**
