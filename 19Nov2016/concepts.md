@@ -1,5 +1,5 @@
-**Basic concepts**
-------------------
+**Basic Consensus concepts**
+---------------------------
 
   - Leader election algorithm must satisfy the following:
    
@@ -9,7 +9,8 @@
   - Most popular Leader election algorithms:
  
   The most popular election algorithms can be classified into multiple categories, a classical leader election protocols such
-  as (Ring protocol/algorithm), Paxos-like approaches such as Google CHUBBY and zookeeper and Raft consensus such as Consul.  
+  as (Ring protocol/algorithm), Paxos-like approaches such as zookeeper and Raft consensus protocol such as Consul.
+  
    1. **Ring** 
    
        ![Alt text](images/Ring-LeaderElection.png "Ring Leader Election Algorithm")
@@ -42,8 +43,8 @@
 
    4. **Consul**
       
-      * RAFT is a consensus algorithm, which is used to maintian the fault-tolerance.
+      * Consul uses Raft consensus algorithm, in order to maintian the fault-tolerance.
       * Each server has a state machine and log "hash table".
-      * Get a command from log and check if that state machine is the same on all servers.
+      * Get a command from log and check if that state machine still the same on all servers even after applying multiple commands.
       * "As a result, each state machine processes the same series of commands and thus produces the same series of results 
        and arrives at the same series of states." you can read more about from [here](https://raft.github.io/)
