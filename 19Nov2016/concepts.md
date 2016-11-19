@@ -9,7 +9,7 @@
   - Most popular Leader election algorithms:
  
   The most popular election algorithms can be classified into multiple categories, a classical leader election protocols such
-  as (Ring protocol/algorithm), Paxos-like approaches such as zookeeper and Raft consensus protocol such as Consul.
+  as (Ring protocol/algorithm), Paxos-like or (Zab) approaches such as zookeeper and Raft consensus protocol such as Consul.
   
    1. **Ring** 
    
@@ -48,3 +48,11 @@
       * Get a command from log and check if that state machine still the same on all servers even after applying multiple commands.
       * "As a result, each state machine processes the same series of commands and thus produces the same series of results 
        and arrives at the same series of states." you can read more about from [here](https://raft.github.io/)
+       
+       
+**Sources**
+
+1. [Raft Consensus Algorithm](https://raft.github.io/raft.pdf)
+2. [Zab vs Paxos](https://cwiki.apache.org/confluence/display/ZOOKEEPER/Zab+vs.+Paxos)
+3. [Ring Leader Election Algorithm](http://www.cs.rug.nl/~eirini/DS_slides/leader_election.pdf)
+4. [Google Chubby Qourum "video"](https://www.coursera.org/learn/cloud-computing-2/lecture/IDKhR/1-3-election-in-chubby-and-zookeeper)
